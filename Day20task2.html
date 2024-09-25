@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Age Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 20%;
+        }
+        input {
+            padding: 10px;
+            margin: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 24px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Age Calculator</h1>
+    <input type="date" id="birthdate">
+    <button onclick="calculateAge()">Calculate Age</button>
+    <div id="result">Enter your birthdate</div>
+    <script>
+        function calculateAge() {
+            const birthdateInput = document.getElementById('birthdate').value;
+            if (!birthdateInput) {
+                document.getElementById('result').textContent = "Please enter your birthdate.";
+                return;
+            }
+            else{
+            const birthdate = new Date(birthdateInput);
+            const today = new Date();
+            const age = getAge(birthdate, today);
+            document.getElementById('result').textContent = `${age.years} years, ${age.months} months, and ${age.days} days.`;
+            }
+        }
+
+        function getAge(birthdate, today) {
+            let years = today.getFullYear() - birthdate.getFullYear();
+            let months = today.getMonth() - birthdate.getMonth();
+            let days = today.getDate() - birthdate.getDate();
+            if (days < 0) {
+                months--;
+                const lastMonth = new Date(today.getFullYear(), today.getMonth(), 0);
+                days += lastMonth.getDate();
+            }
+            if (months < 0) {
+                years--;
+                months += 12;
+            }
+            return { years, months, days };
+        }
+    </script>
+</body>
+</html>
